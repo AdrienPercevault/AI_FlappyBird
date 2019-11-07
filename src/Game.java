@@ -49,7 +49,9 @@ public class Game {
         numbirds = 100;
         Population pop = new Population(numbirds, true);
         birdslist = pop.getBirdslist();
-        
+               
+//      Problème à modifier !
+//      While incohérent ! Continuer jusqu'a la mort de l'individu
         int generationCount = 0;
         while (pop.getFittest().getFitness() < 10000) {
         	generationCount++;
