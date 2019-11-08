@@ -20,11 +20,13 @@ public class Game {
     public Boolean started;
     public int score;
     
+    public boolean alldead;
+    
     public int distX;
     public int distY;
     public int totalDist;
     public Population pop;
-    
+        
     public Game(Population pop) {
         keyboard = Keyboard.getInstance();
 
@@ -40,7 +42,8 @@ public class Game {
         restartDelay = 0;
         pipeDelay = 0;
         score = 0;
-
+        alldead = false;
+                
         pipes = new ArrayList<Pipe>();
         pipesL = new ArrayList<Pipe>();
         indexpipes = 0;
@@ -60,8 +63,6 @@ public class Game {
 
         if (paused)
             return;
-        
-
 
         for (Bird b : birdslist) {
         	
@@ -72,18 +73,18 @@ public class Game {
             System.out.println("\tDistance T " + b.getTotalDist());
             
         	totalDist = b.getTotalDist();
-        	score = b.getScore();
         	double isJump = Math.random();
         	b.update(isJump);
         }
-               
+
         int num = 0;
         for (Bird b : birdslist) {
+        	System.out.println(b.getScore());
         	if (b.getGameover() == true)
         		num++;
         	if (num == birdslist.size()) {
-        		pop.setEverybodyDead(true);
-//        		watchForReset();
+        		alldead = true;
+        		birdslist = new ArrayList<Bird>();
         		return;
         	}
         }
@@ -121,17 +122,17 @@ public class Game {
         }
     }
 
-    private void watchForReset() {
-        if (restartDelay > 0)
-            restartDelay--;
-
-//      if (keyboard.isDown(KeyEvent.VK_R) && restartDelay <= 0) {
-        if (restartDelay <= 0) {
-            restartDelay = 10;
+//    private void watchForReset() {
+//        if (restartDelay > 0)
+//            restartDelay--;
+//
+//        if (keyboard.isDown(KeyEvent.VK_R) && restartDelay <= 0) {
+//        if (restartDelay <= 0) {
+//            restartDelay = 10;
 //            restart();
-            return;
-        }
-    }
+//            return;
+//        }
+//    }
 
     private void movePipes() {
         pipeDelay--;
@@ -185,6 +186,7 @@ public class Game {
     	
         for (Pipe pipe : pipes) {
             for (Bird b : birdslist) {
+            	score = b.getScore();
             	if (!b.getGameover()) {
 	            	indexpipes = b.getIndexpipes();
 	            	distX = pipeX - b.x;
@@ -200,6 +202,7 @@ public class Game {
 	            	} else if (pipe.x == b.x && pipe.orientation.equalsIgnoreCase("south")) {
 	            		indexpipes++;
 	            		b.setIndexpipes(indexpipes);
+	            		score++;
 	            		b.setScore(b.getScore() + 1);
 	            	}
             	}
@@ -215,4 +218,12 @@ public class Game {
             }
         }
     }
+
+	public boolean isAllDead() {
+		return alldead;
+	}
+
+	public void setAllDead(boolean alldead) {
+		this.alldead = alldead;
+	}
 }

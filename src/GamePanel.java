@@ -54,4 +54,8 @@ public class GamePanel extends JPanel implements Runnable {
             e.printStackTrace();
         }
     }
+    
+    public boolean getBirdAreOut() {
+    	return game.isAllDead();
+    }
 }

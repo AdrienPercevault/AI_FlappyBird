@@ -15,13 +15,14 @@ public class App {
         Keyboard keyboard = Keyboard.getInstance();
         frame.addKeyListener(keyboard);
 
-        int numbirds = 3;
+        int numbirds = 2;
         Population pop = new Population(numbirds, true);
         GamePanel panel = new GamePanel(pop);
-
         
         int generationCount = 1;
         while (pop.getFittest().getFitness() < 10000) {
+        	boolean boolDead = panel.getBirdAreOut();
+        	
         	if (generationCount == 1) {
             	System.out.println("Génération : " + generationCount);
 
@@ -30,19 +31,29 @@ public class App {
             	generationCount++;
         	}
 
-        	if (pop.getEverybodyDead()) {
-        		System.out.println("test");
+        	if (boolDead) {
             	System.out.println("Génération : " + generationCount);
                 
-            	pop = Genetic.evolvePopulation(pop); 
+                pop = Genetic.evolvePopulation(pop);
+                frame.remove(panel);
             	panel = new GamePanel(pop);
             	frame.add(panel);
-            	pop.setEverybodyDead(false);
+            	
+            	frame.setVisible(true);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(WIDTH, HEIGHT);
+                frame.setLocationRelativeTo(null);   
+            	
+//            	pop.setEverybodyDead(false);
             	generationCount++;
         	}
         	
+        	else {
+//        		System.out.println(boolDead);
+        	}
+        	
 //        	try {
-//				Thread.sleep(100000);
+//				Thread.sleep(1000);
 //			} catch (InterruptedException e) {
 //				e.printStackTrace();
 //			}

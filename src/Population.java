@@ -16,9 +16,8 @@ public class Population {
 		
 		birdslist = new ArrayList<Bird>();
 		if (init) {
-			int upper = 350;
 	        for (int i=0; i<numbirds; i++) {
-	        	bird = new Bird(100, (int) (Math.random() * upper));
+	        	bird = new Bird(100, (int) (Math.random() * 350));
 	        	rand = (int) (Math.random() * 2);
 	        	bird.setRand(rand);
 	        	addPop(bird);
@@ -37,7 +36,10 @@ public class Population {
 				fittest = b;
 			}
 		}
-		return fittest;
+		
+		Bird fittest2 = new Bird(100, (int) (Math.random() * 350));
+		fittest2.setGene(0, fittest.getGene(0));
+		return fittest2;
 	}
 	
 	public void setEverybodyDead(boolean bool) {
@@ -63,7 +65,4 @@ public class Population {
 	public void setBirdslist(ArrayList<Bird> birdslist) {
 		this.birdslist = birdslist;
 	}
-	
-	
-	
 }
