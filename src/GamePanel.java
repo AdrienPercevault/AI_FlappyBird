@@ -6,8 +6,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Game game;
 
-    public GamePanel() {
-        game = new Game();
+    public GamePanel(Population pop) {
+        game = new Game(pop);
         new Thread(this).start();
     }
 

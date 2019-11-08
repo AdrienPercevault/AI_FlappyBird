@@ -1,4 +1,5 @@
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 //import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 
@@ -10,18 +11,23 @@ public class Bird {
     public int height;
 
     public int totalDist;
+    public int distX;
+    public int distY;
     
     public boolean dead;
     
     public double yvel;
     public double gravity;
 
+    public int rand;
+    public int indexpipes;
+    
     private int jumpDelay;
     private double rotation;
 
     private Image image;
     private int fitness;
-//    private Keyboard keyboard;
+    private Keyboard keyboard;
     
     private static int defaultGeneLenght;
     private byte[] genes;
@@ -48,8 +54,14 @@ public class Bird {
         score = 0;
 
         totalDist = 0;
+        distX = 0;
+        distY = 0;
         
-//        keyboard = Keyboard.getInstance();
+        indexpipes = 0;
+        
+        rand = 0;
+        
+        keyboard = Keyboard.getInstance();
     }
 
 	public void update(double isJump) {
@@ -58,11 +70,11 @@ public class Bird {
         if (jumpDelay > 0)
             jumpDelay--;
 
-//        if (!dead && keyboard.isDown(KeyEvent.VK_SPACE) && jumpDelay <= 0) {
-        if (!dead && isJump > 0.5 && jumpDelay <= 0) {
+        if (!dead && keyboard.isDown(KeyEvent.VK_SPACE) && jumpDelay <= 0) {
+//        if (!dead && isJump > 0.5 && jumpDelay <= 0) {
         	yvel = -10;
             jumpDelay = 10;
-        }
+        } 
 
         y += (int)yvel;
     }
@@ -73,7 +85,7 @@ public class Bird {
         r.y = y;
 
         if (image == null) {
-            image = Util.loadImage("lib/bird1.png");     
+            image = Util.loadImage("lib/bird" + rand + ".png");
         }
         r.image = image;
 
@@ -105,11 +117,11 @@ public class Bird {
 	}
 	
 	public int getFitness() {
-		if(this.fitness == 0) {
-			this.fitness = totalDist;
-		}
+		this.fitness = totalDist;
 		return fitness;
 	}
+	
+	
 	
     public int getScore() {
 		return score;
@@ -133,5 +145,38 @@ public class Bird {
 
 	public void setTotalDist(int totalDist) {
 		this.totalDist = totalDist;
+	}
+	
+	public int getDistX() {
+		return distX;
+	}
+
+	public void setDistX(int distX) {
+		this.distX = distX;
+	}
+
+	public int getDistY() {
+		return distY;
+	}
+
+	public void setDistY(int distY) {
+		this.distY = distY;
+	}
+	
+
+	public int getRand() {
+		return rand;
+	}
+
+	public void setRand(int rand) {
+		this.rand = rand;
+	}
+	
+	public int getIndexpipes() {
+		return indexpipes;
+	}
+
+	public void setIndexpipes(int indexpipes) {
+		this.indexpipes = indexpipes;
 	}
 }

@@ -11,8 +11,6 @@ public class Game {
     private int restartDelay;
     private int pipeDelay;
 
-    private int numbirds;
-    private Bird bird;
     private ArrayList<Bird> birdslist;
     private ArrayList<Pipe> pipes;
     private ArrayList<Pipe> pipesL;
@@ -25,9 +23,13 @@ public class Game {
     public int distX;
     public int distY;
     public int totalDist;
+    public Population pop;
     
-    public Game() {
+    public Game(Population pop) {
         keyboard = Keyboard.getInstance();
+
+        birdslist = pop.getBirdslist();
+        this.pop = pop;
         restart();
     }
 
@@ -42,29 +44,9 @@ public class Game {
         pipes = new ArrayList<Pipe>();
         pipesL = new ArrayList<Pipe>();
         indexpipes = 0;
+        totalDist = 0;
         distX = 0;
         distY = 0;
-        totalDist = 0;
-        
-        numbirds = 100;
-        Population pop = new Population(numbirds, true);
-        birdslist = pop.getBirdslist();
-               
-//      Problème à modifier !
-//      While incohérent ! Continuer jusqu'a la mort de l'individu
-        int generationCount = 0;
-        while (pop.getFittest().getFitness() < 10000) {
-        	generationCount++;
-        	System.out.println("Génération : " + generationCount);
-        	pop = Genetic.evolvePopulation(pop);
-        	update();
-            try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-        }        
-
     }
 
     public void update() {
@@ -78,13 +60,17 @@ public class Game {
 
         if (paused)
             return;
+        
 
-        System.out.println("***** ***** ***** ***** *****");
-        System.out.println("\tDistance X " + distX);
-        System.out.println("\tDistance Y " + distY);
-        System.out.println("\tDistance T " + totalDist);
 
         for (Bird b : birdslist) {
+        	
+            System.out.println("***** ***** ***** ***** *****");
+            System.out.println("\tBird : " + b);
+            System.out.println("\tDistance X " + b.getDistX());
+            System.out.println("\tDistance Y " + b.getDistY());
+            System.out.println("\tDistance T " + b.getTotalDist());
+            
         	totalDist = b.getTotalDist();
         	score = b.getScore();
         	double isJump = Math.random();
@@ -96,8 +82,9 @@ public class Game {
         	if (b.getGameover() == true)
         		num++;
         	if (num == birdslist.size()) {
-        		watchForReset();
-//        		return;
+        		pop.setEverybodyDead(true);
+//        		watchForReset();
+        		return;
         	}
         }
        
@@ -138,10 +125,10 @@ public class Game {
         if (restartDelay > 0)
             restartDelay--;
 
-//        if (keyboard.isDown(KeyEvent.VK_R) && restartDelay <= 0) {
+//      if (keyboard.isDown(KeyEvent.VK_R) && restartDelay <= 0) {
         if (restartDelay <= 0) {
-            restart();
             restartDelay = 10;
+//            restart();
             return;
         }
     }
@@ -198,16 +185,23 @@ public class Game {
     	
         for (Pipe pipe : pipes) {
             for (Bird b : birdslist) {
-            	distX = pipeX - b.x;
-            	totalDist = score * 400 + 400 - distX;
-            	b.setTotalDist(totalDist);
-            	distY = pipeY - b.y;
-            	if (pipe.collides(b.x, b.y, b.width, b.height)) {
-            		b.setGameover(true);
-            		b.dead = true;
-            	} else if (pipe.x == b.x && pipe.orientation.equalsIgnoreCase("south")) {
-            		indexpipes ++;
-            		b.setScore(bird.getScore() + 1);
+            	if (!b.getGameover()) {
+	            	indexpipes = b.getIndexpipes();
+	            	distX = pipeX - b.x;
+	            	b.setDistX(distX);
+	            	totalDist = b.getScore() * 400 + 400 - distX;
+	            	b.setTotalDist(totalDist);
+	            	distY = pipeY - b.y;
+	            	b.setDistY(distY);
+	            	
+	            	if (pipe.collides(b.x, b.y, b.width, b.height)) {
+	            		b.setGameover(true);
+	            		b.dead = true;
+	            	} else if (pipe.x == b.x && pipe.orientation.equalsIgnoreCase("south")) {
+	            		indexpipes++;
+	            		b.setIndexpipes(indexpipes);
+	            		b.setScore(b.getScore() + 1);
+	            	}
             	}
             }
         }
@@ -216,6 +210,7 @@ public class Game {
         for (Bird b : birdslist) {
             if (b.y + b.height > App.HEIGHT - 80) {
                 b.setGameover(true);
+                b.dead = true;
                 b.y = App.HEIGHT - 80 - b.height;
             }
         }
