@@ -35,6 +35,14 @@ public class Bird {
     public int score;
     public Boolean gameover;
 
+    // SETUP NEURAL NETWORK
+    public final int genomes_per_generation = 3;
+    public final int neurons_amount[] = {2, 2, 1};
+    public final NeuralNetwork nn = new NeuralNetwork(neurons_amount, genomes_per_generation, 0.5, -1, 1);
+    public boolean autoplay = true;
+    public final double inputs[] = new double[2];
+    public double outputs[] = new double[1];
+    
     public Bird(int x, int y) {
     	this.x = x; // x = 100;
     	this.y = y; // y = 150;
@@ -64,14 +72,24 @@ public class Bird {
         keyboard = Keyboard.getInstance();
     }
 
-	public void update(double isJump) {
+	public void update() {
         yvel += gravity;
 
         if (jumpDelay > 0)
             jumpDelay--;
 
-        if (!dead && keyboard.isDown(KeyEvent.VK_SPACE) && jumpDelay <= 0) {
-//        if (!dead && isJump > 0.5 && jumpDelay <= 0) {
+        System.out.println(distX);
+        System.out.println(distY);
+        
+        inputs[0] = distX;
+        inputs[1] = distY;
+        outputs = nn.getOutputs(inputs);
+        
+        double jumper = outputs[0];
+        System.out.println(jumper);
+        
+//        if (!dead && keyboard.isDown(KeyEvent.VK_SPACE) && jumpDelay <= 0) {
+        if (!dead && jumper > 0.5 && jumpDelay <= 0) {
         	yvel = -10;
             jumpDelay = 10;
         } 

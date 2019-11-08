@@ -73,8 +73,7 @@ public class Game {
             System.out.println("\tDistance T " + b.getTotalDist());
             
         	totalDist = b.getTotalDist();
-        	double isJump = Math.random();
-        	b.update(isJump);
+        	b.update();
         }
 
         int num = 0;
