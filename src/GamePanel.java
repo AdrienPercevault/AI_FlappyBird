@@ -5,8 +5,10 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
 
     private Game game;
+	private int generationCount;
 
-    public GamePanel(Population pop) {
+    public GamePanel(Population pop, int generationCount) {
+    	this.generationCount = generationCount;
         game = new Game(pop);
         new Thread(this).start();
     }
@@ -34,7 +36,9 @@ public class GamePanel extends JPanel implements Runnable {
             g2D.drawString("Press SPACE to start", 150, 240);
         } else {
             g2D.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-            g2D.drawString(Integer.toString(game.score), 10, 465);
+            g2D.drawString("Score : " + Integer.toString(game.score), 10, 465);
+            g2D.drawString("Gen : " + Integer.toString(generationCount), 160, 465);
+            //g2D.drawString("Best score : " + Integer.toString(game.bestScore), 300, 465);  TODO : Add best score
         }
 
 //        if (game.gameover) {

@@ -10,7 +10,7 @@ public class Genetic {
 		
 		newPop.addPop(pop.getFittest());
 		
-		// Crossover loop !
+		// Crossover loop
 		for (int i=1; i < pop.popSize(); i++) {
 			Bird b1 = selectBird(pop);
 			Bird b2 = selectBird(pop);
@@ -29,25 +29,33 @@ public class Genetic {
 		int upper = 350;
 		Bird newBird = new Bird(100, (int) (Math.random() * upper));
 		
-		for (int i=0; i < b1.geneSize(); i++) {
-			if (Math.random() <= crossoverRate) {
-				newBird.setGene(i, b1.getGene(i));
-			}
-			else {
-				newBird.setGene(i, b2.getGene(i));
-			}
+		if (Math.random() <= crossoverRate) {
+			newBird.setNn(b1.getNn());
+		}
+		else {
+			newBird.setNn(b2.getNn());
 		}
 		
 		return newBird;
 	}
 	
 	private static void mutate(Bird b) {
-		for(int i=0; i < b.geneSize(); i++) {
-			if (Math.random() <= mutationRate) {
-				byte gene = (byte) Math.round(Math.random());
-				b.setGene(i, gene);
-			}
+		if (Math.random() <= mutationRate) {
+			
+			int neurons_amount[] = {2, 2, 1};
+			int genomes_per_generation = 3;
+			int layers_amount = neurons_amount.length;
+			double synapses_val[][][][];
+			double min_weight = -1;
+		    double max_weight = 1;
+		    
+		    synapses_val = b.getInitSynapsesRandomly();
+		    
+			NeuralNetwork nn = new NeuralNetwork(neurons_amount, genomes_per_generation, layers_amount, synapses_val, 0.5, min_weight, max_weight);
+			
+			b.setNn(nn);
 		}
+		
 	}
 	
 	private static Bird selectBird(Population pop) {

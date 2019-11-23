@@ -29,7 +29,6 @@ public class Game {
         
     public Game(Population pop) {
         keyboard = Keyboard.getInstance();
-
         birdslist = pop.getBirdslist();
         this.pop = pop;
         restart();
@@ -66,11 +65,11 @@ public class Game {
 
         for (Bird b : birdslist) {
         	
-            System.out.println("***** ***** ***** ***** *****");
-            System.out.println("\tBird : " + b);
-            System.out.println("\tDistance X " + b.getDistX());
-            System.out.println("\tDistance Y " + b.getDistY());
-            System.out.println("\tDistance T " + b.getTotalDist());
+            // System.out.println("***** ***** ***** ***** *****");
+            // System.out.println("\tBird : " + b);
+            // System.out.println("\tDistance X " + b.getDistX());
+            // System.out.println("\tDistance Y " + b.getDistY());
+            // System.out.println("\tDistance T " + b.getTotalDist());
             
         	totalDist = b.getTotalDist();
         	b.update();
@@ -78,7 +77,7 @@ public class Game {
 
         int num = 0;
         for (Bird b : birdslist) {
-        	System.out.println(b.getScore());
+        	// System.out.println(b.getScore());
         	if (b.getGameover() == true)
         		num++;
         	if (num == birdslist.size()) {
@@ -185,7 +184,7 @@ public class Game {
     	
         for (Pipe pipe : pipes) {
             for (Bird b : birdslist) {
-            	score = b.getScore();
+            	//score = b.getScore();
             	if (!b.getGameover()) {
 	            	indexpipes = b.getIndexpipes();
 	            	distX = pipeX - b.x;
@@ -201,6 +200,7 @@ public class Game {
 	            	} else if (pipe.x == b.x && pipe.orientation.equalsIgnoreCase("south")) {
 	            		indexpipes++;
 	            		b.setIndexpipes(indexpipes);
+	            		score = b.getScore();
 	            		score++;
 	            		b.setScore(b.getScore() + 1);
 	            	}

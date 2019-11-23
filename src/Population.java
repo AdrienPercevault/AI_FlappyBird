@@ -6,8 +6,7 @@ public class Population {
 	
 	public int numbirds;
 	public ArrayList<Bird> birdslist;
-	public int rand;
-	
+	public int rand;	
 	public boolean dead;
 	
 	public Population(int numbirds, boolean init) {
@@ -38,7 +37,9 @@ public class Population {
 		}
 		
 		Bird fittest2 = new Bird(100, (int) (Math.random() * 350));
-		fittest2.setGene(0, fittest.getGene(0));
+		//fittest2.setGene(0, fittest.getGene(0));
+		fittest2.setNn(fittest.getNn());
+		fittest2.setIsFirst(1);
 		return fittest2;
 	}
 	

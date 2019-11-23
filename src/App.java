@@ -15,11 +15,12 @@ public class App {
         Keyboard keyboard = Keyboard.getInstance();
         frame.addKeyListener(keyboard);
 
-        int numbirds = 2;
-        Population pop = new Population(numbirds, true);
-        GamePanel panel = new GamePanel(pop);
+        int numbirds = 5;
         
         int generationCount = 1;
+        Population pop = new Population(numbirds, true);
+        GamePanel panel = new GamePanel(pop, generationCount);
+        
         while (pop.getFittest().getFitness() < 10000) {
         	boolean boolDead = panel.getBirdAreOut();
         	
@@ -36,7 +37,7 @@ public class App {
                 
                 pop = Genetic.evolvePopulation(pop);
                 frame.remove(panel);
-            	panel = new GamePanel(pop);
+            	panel = new GamePanel(pop, generationCount);
             	frame.add(panel);
             	
             	frame.setVisible(true);
