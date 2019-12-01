@@ -37,7 +37,6 @@ public class Population {
 		}
 		
 		Bird fittest2 = new Bird(100, (int) (Math.random() * 350));
-		//fittest2.setGene(0, fittest.getGene(0));
 		fittest2.setNn(fittest.getNn());
 		fittest2.setIsFirst(1);
 		return fittest2;

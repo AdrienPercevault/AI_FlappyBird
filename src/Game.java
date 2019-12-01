@@ -58,18 +58,11 @@ public class Game {
             return;
 
         watchForPause();
-//        watchForReset();
 
         if (paused)
             return;
 
         for (Bird b : birdslist) {
-        	
-            // System.out.println("***** ***** ***** ***** *****");
-            // System.out.println("\tBird : " + b);
-            // System.out.println("\tDistance X " + b.getDistX());
-            // System.out.println("\tDistance Y " + b.getDistY());
-            // System.out.println("\tDistance T " + b.getTotalDist());
             
         	totalDist = b.getTotalDist();
         	b.update();
@@ -77,7 +70,6 @@ public class Game {
 
         int num = 0;
         for (Bird b : birdslist) {
-        	// System.out.println(b.getScore());
         	if (b.getGameover() == true)
         		num++;
         	if (num == birdslist.size()) {
@@ -105,9 +97,7 @@ public class Game {
     }
 
     private void watchForStart() {
-//        if (!started && keyboard.isDown(KeyEvent.VK_SPACE)) {
             started = true;
-//        }
     }
 
     private void watchForPause() {
@@ -119,18 +109,6 @@ public class Game {
             pauseDelay = 10;
         }
     }
-
-//    private void watchForReset() {
-//        if (restartDelay > 0)
-//            restartDelay--;
-//
-//        if (keyboard.isDown(KeyEvent.VK_R) && restartDelay <= 0) {
-//        if (restartDelay <= 0) {
-//            restartDelay = 10;
-//            restart();
-//            return;
-//        }
-//    }
 
     private void movePipes() {
         pipeDelay--;
@@ -184,7 +162,6 @@ public class Game {
     	
         for (Pipe pipe : pipes) {
             for (Bird b : birdslist) {
-            	//score = b.getScore();
             	if (!b.getGameover()) {
 	            	indexpipes = b.getIndexpipes();
 	            	distX = pipeX - b.x;

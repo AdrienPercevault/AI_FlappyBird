@@ -21,9 +21,6 @@ public class NeuralNetwork {
     private double min_weight, max_weight;
         
     public NeuralNetwork(int neurons_amount[], int genomes_per_generation, int layers_amount, double[][][][] synapses_temp, double random_mutation_probability, double min_weight, double max_weight) {
-    
-//    SaveLoad save_load;
-//    private LiveView live_view;
     	
     // Copy constructor parameters
 	this.neurons_amount = neurons_amount;
@@ -52,85 +49,9 @@ public class NeuralNetwork {
             neurons[i][neurons_amount[i] - 1] = 1;
 	}
         
-    //  // Generate synapses
-	// synapses = new double[genomes_per_generation][][][];
-	// for(int k = 0; k < genomes_per_generation; k++) {
-    //         synapses[k] = new double[layers_amount - 1][][];
-    //         for(int i = 0; i < layers_amount - 1; i++) {
-    //             synapses[k][i] = new double[neurons_amount[i]][];
-    //             for(int j = 0; j < neurons_amount[i]; j++) {
-    //                 if(i + 1 != layers_amount - 1) {
-    //                     synapses[k][i][j] = new double[neurons_amount[i + 1] - 1];
-    //                 }
-    //                 else {
-    //                     synapses[k][i][j] = new double[neurons_amount[i + 1]];
-    //                 }	
-    //             }
-    //         }
-	// }
-        
-//        save_load = new SaveLoad(this);    
-//        live_view = new LiveView(this);
-//        
-        // If the file exists, load it. Else, init randomly
-//        if(save_load.fileExists()) {
-//            try {
-//				save_load.loadFromFile();
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//        }
-//        else {
-            //initSynapsesRandomly();
-			synapses = synapses_temp;
-			//System.out.println(synapses.length);
-//        }
+ 
+	synapses = synapses_temp;
     }
-    
-    // private void initSynapsesRandomly() {
-    // 	
-    // 	for (int d : neurons_amount) {
-    // 		System.out.println(d);
-    // 	}
-    // 	
-    //     for(int l = 0; l < genomes_per_generation; l++) {
-    //         for(int i = 0; i < layers_amount - 1; i++) {
-    //             for(int j = 0; j < neurons_amount[i]; j++) {
-    //                 int m;                    
-    //                 if(i + 1 != layers_amount - 1) {
-    //                     m = neurons_amount[i + 1] - 1;
-    //                 }
-    //                 else {
-    //                     m = neurons_amount[i + 1];
-    //                 }
-    //                 for(int k = 0; k < m; k++) {
-    //                     synapses[l][i][j][k] = randDouble(min_weight, max_weight);
-    //                     // System.out.println("-----------------------");
-    //                     // System.out.println("synapses : ");
-    //                     // System.out.println(randDouble(min_weight, max_weight));
-    //                     // System.out.println("-----------------------");
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     
-    //     // for (double[][][] d : synapses) {
-    //     //     for (double[][] d1 : d) {
-    //     //         for (double[] d2 : d1) {
-    //     //             for (double d3 : d2) {
-    //     //             	System.out.println(d3);
-    //     //             }
-    //     //         }
-    //     //     }
-    //     // }
-    //     // System.out.println("----------------------------");
-    //     
-	// // 	save_load.saveToFile();
-	// }
     
     public double[] getOutputs(double inputs[]) {
     	this.inputs = inputs;
@@ -179,11 +100,7 @@ public class NeuralNetwork {
     
     private double sigmoid(double x) {
         return 1 / (1 + exp(-x));
-}
-    
-    private double randDouble(double min, double max) {
-        Random r = new Random();
-        return min + (max - min) * r.nextDouble();
     }
+
 }	
 

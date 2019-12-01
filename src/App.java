@@ -15,7 +15,7 @@ public class App {
         Keyboard keyboard = Keyboard.getInstance();
         frame.addKeyListener(keyboard);
 
-        int numbirds = 5;
+        int numbirds = 50;
         
         int generationCount = 1;
         Population pop = new Population(numbirds, true);
@@ -45,20 +45,8 @@ public class App {
                 frame.setSize(WIDTH, HEIGHT);
                 frame.setLocationRelativeTo(null);   
             	
-//            	pop.setEverybodyDead(false);
             	generationCount++;
-        	}
-        	
-        	else {
-//        		System.out.println(boolDead);
-        	}
-        	
-//        	try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-
+        	}      	
         }
     }
 }

@@ -124,18 +124,13 @@ public class Bird {
 
         if (jumpDelay > 0)
             jumpDelay--;
-
-        //System.out.println(distX);
-        //System.out.println(distY);
         
         inputs[0] = distX;
         inputs[1] = distY;
         outputs = nn.getOutputs(inputs);
         
         double jumper = outputs[0];
-        // System.out.println(jumper);
-        
-//        if (!dead && keyboard.isDown(KeyEvent.VK_SPACE) && jumpDelay <= 0) {
+
         if (!dead && jumper > 0.5 && jumpDelay <= 0) {
         	yvel = -10;
             jumpDelay = 10;
